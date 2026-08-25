@@ -1,0 +1,10 @@
+[project]
+name = "moba2-dev-tools"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+  "gdtoolkit>=4.3,<5",
+]
+
+[tool.uv]
+package = false

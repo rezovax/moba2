@@ -1,0 +1,17 @@
+.omo
+.codegraph
+
+# Godot generated state and imports.
+client/.godot/
+client/.import/
+
+# Local tooling and generated evidence.
+.venv/
+artifacts/
+client/artifacts/
+graphify-out/
+
+# OS/editor noise.
+.DS_Store
+Thumbs.db
+*.tmp
