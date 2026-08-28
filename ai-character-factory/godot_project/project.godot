@@ -1,0 +1,27 @@
+; Engine configuration file.
+config_version=5
+
+[application]
+config/name="AI Character Factory Test"
+run/main_scene="res://tests/CharacterTestArena.tscn"
+
+[autoload]
+godot_mcp_runtime="*res://addons/godot-mcp/runtime_bridge.gd"
+
+[display]
+window/size/viewport_width=960
+window/size/viewport_height=540
+window/size/window_width_override=960
+window/size/window_height_override=540
+window/vsync/vsync_mode=0
+
+[rendering]
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/default_filters/use_nearest_mipmap_filter=false
+
+
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/godot-mcp/plugin.cfg")

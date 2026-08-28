@@ -1,0 +1,60 @@
+[gd_scene load_steps=13 format=3]
+
+[ext_resource type="Script" path="res://scripts/hero/hero_base.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/hero/hero_motor.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/hero/health_component.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/hero/combat_controller.gd" id="4"]
+[ext_resource type="Script" path="res://scripts/hero/ability_controller.gd" id="5"]
+[ext_resource type="Script" path="res://scripts/hero/animation_controller.gd" id="6"]
+[ext_resource type="Script" path="res://scripts/hero/targeting_system.gd" id="7"]
+[ext_resource type="Script" path="res://scripts/hero/status_effect_system.gd" id="8"]
+[ext_resource type="Script" path="res://scripts/hero/hero_stats.gd" id="9"]
+
+[sub_resource type="CapsuleShape3D" id="Capsule"]
+radius = 0.4
+height = 1.8
+
+[sub_resource type="Resource" id="Stats"]
+script = ExtResource("9")
+
+[node name="HeroBase" type="CharacterBody3D"]
+script = ExtResource("1")
+stats = SubResource("Stats")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.9, 0)
+shape = SubResource("Capsule")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+path_height_offset = 0.0
+
+[node name="VisualRoot" type="Node3D" parent="."]
+
+[node name="HeroMotor" type="Node" parent="."]
+script = ExtResource("2")
+
+[node name="Combat" type="Node" parent="."]
+
+[node name="HealthComponent" type="Node" parent="Combat"]
+script = ExtResource("3")
+
+[node name="CombatController" type="Node" parent="Combat"]
+script = ExtResource("4")
+
+[node name="TargetingSystem" type="Node" parent="Combat"]
+script = ExtResource("7")
+
+[node name="StatusEffectSystem" type="Node" parent="Combat"]
+script = ExtResource("8")
+
+[node name="Abilities" type="Node" parent="."]
+
+[node name="AbilityController" type="Node" parent="Abilities"]
+script = ExtResource("5")
+
+[node name="AnimationController" type="AnimationTree" parent="."]
+script = ExtResource("6")
+
+[node name="Audio" type="Node3D" parent="."]
+
+[node name="VFX" type="Node3D" parent="."]

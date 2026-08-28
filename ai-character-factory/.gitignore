@@ -7,7 +7,7 @@ logs/*
 output/*
 !logs/.gitkeep
 !output/.gitkeep
-tools/blender/current/
+tools/blender/current
 tools/blender/*.tar.xz
 tools/blender/blender-*/
 !tools/blender/.gitkeep
