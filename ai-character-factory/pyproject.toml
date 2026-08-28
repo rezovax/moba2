@@ -1,0 +1,9 @@
+[project]
+name = "ai-character-factory"
+version = "0.1.0"
+description = "Automated Meshy to Blender to Godot character pipeline"
+requires-python = ">=3.11"
+dependencies = []
+
+[tool.pytest.ini_options]
+testpaths = ["scripts/tests"]

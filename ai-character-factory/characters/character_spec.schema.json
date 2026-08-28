@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.moba2/character_spec.schema.json",
+  "title": "AI Character Factory Character Specification",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "id", "name", "visual", "model", "animations", "gameplay", "abilities", "source"],
+  "properties": {
+    "$schema": {"type": "string"},
+    "schema_version": {"const": 1},
+    "id": {"type": "string", "pattern": "^[a-z][a-z0-9_]{2,63}$"},
+    "name": {"type": "string", "minLength": 1, "maxLength": 80},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode"],
+      "properties": {
+        "mode": {"enum": ["meshy_text", "meshy_image", "meshy_multi_image", "fixture"]},
+        "path": {"type": "string"},
+        "image_urls": {"type": "array", "items": {"type": "string"}, "minItems": 1, "maxItems": 4}
+      }
+    },
+    "visual": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gender", "body_type", "height_m", "style", "camera_priority", "prompt"],
+      "properties": {
+        "gender": {"type": "string"},
+        "body_type": {"enum": ["humanoid", "quadruped"]},
+        "height_m": {"type": "number", "minimum": 0.5, "maximum": 5.0},
+        "style": {"type": "string"},
+        "camera_priority": {"enum": ["top_down_readability", "third_person", "cinematic"]},
+        "prompt": {"type": "string", "minLength": 10, "maxLength": 600},
+        "negative_prompt": {"type": "string", "maxLength": 300}
+      }
+    },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["triangle_target", "rig", "require_textures"],
+      "properties": {
+        "triangle_target": {"type": "integer", "minimum": 1000, "maximum": 300000},
+        "rig": {"enum": ["humanoid", "quadruped"]},
+        "require_textures": {"type": "boolean"},
+        "texture_resolution": {"enum": ["2k", "4k", "8k"]}
+      }
+    },
+    "animations": {
+      "type": "object",
+      "additionalProperties": {"$ref": "#/$defs/animation"},
+      "required": ["idle", "run", "attack_01", "hit", "death", "cast_01", "cast_02", "cast_03", "cast_ultimate"]
+    },
+    "gameplay": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["move_speed", "attack_range", "max_health"],
+      "properties": {
+        "move_speed": {"type": "number", "exclusiveMinimum": 0},
+        "attack_range": {"type": "number", "exclusiveMinimum": 0},
+        "max_health": {"type": "number", "exclusiveMinimum": 0}
+      }
+    },
+    "abilities": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "slot", "animation", "cooldown"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+          "slot": {"type": "integer", "minimum": 0, "maximum": 7},
+          "animation": {"type": "string"},
+          "cooldown": {"type": "number", "minimum": 0}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "animation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "source_name": {"type": "string"},
+        "action_id": {"type": "integer"},
+        "motion_prompt": {"type": "string", "maxLength": 400},
+        "duration": {"type": "number", "minimum": 2, "maximum": 10},
+        "loop": {"type": "boolean"}
+      }
+    }
+  }
+}

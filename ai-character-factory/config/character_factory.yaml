@@ -1,0 +1,14 @@
+version: 1
+builds_dir: builds
+generation_attempts: 3
+stage_attempts: 2
+poll_interval_seconds: 10
+task_timeout_seconds: 1800
+blender:
+  target_height_tolerance_m: 0.03
+  ground_tolerance_m: 0.02
+  render_resolution: 512
+godot:
+  project_dir: godot_project
+  test_timeout_seconds: 90
+  test_scene: res://tests/CharacterTestArena.tscn

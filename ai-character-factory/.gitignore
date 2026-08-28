@@ -1,0 +1,17 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+builds/
+logs/*
+output/*
+!logs/.gitkeep
+!output/.gitkeep
+tools/blender/current/
+tools/blender/*.tar.xz
+tools/blender/blender-*/
+!tools/blender/.gitkeep
+godot_project/.godot/
+godot_project/generated/
+godot_project/assets/generated/
+godot_project/test_artifacts/
