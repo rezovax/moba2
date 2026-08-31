@@ -1,0 +1,77 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/lane_creep.gd" id="1_creep"]
+
+[sub_resource type="CapsuleMesh" id="Capsule_body"]
+radius = 0.34
+height = 0.92
+
+[sub_resource type="StandardMaterial3D" id="Material_armor"]
+albedo_color = Color(0.22, 0.25, 0.28, 1)
+metallic = 0.35
+roughness = 0.5
+
+[sub_resource type="CylinderMesh" id="Cylinder_armor"]
+material = SubResource("Material_armor")
+top_radius = 0.39
+bottom_radius = 0.3
+height = 0.24
+
+[sub_resource type="StandardMaterial3D" id="Material_weapon"]
+albedo_color = Color(0.82, 0.72, 0.47, 1)
+metallic = 0.6
+roughness = 0.35
+
+[sub_resource type="BoxMesh" id="Box_weapon"]
+material = SubResource("Material_weapon")
+size = Vector3(0.58, 0.1, 0.12)
+
+[sub_resource type="StandardMaterial3D" id="Material_health_back"]
+shading_mode = 0
+albedo_color = Color(0.16, 0.05, 0.06, 1)
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="Quad_health_back"]
+material = SubResource("Material_health_back")
+size = Vector2(0.96, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="Material_health"]
+shading_mode = 0
+albedo_color = Color(0.35, 0.9, 0.3, 1)
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="Quad_health"]
+material = SubResource("Material_health")
+size = Vector2(0.92, 0.07)
+
+[node name="LaneCreep" type="Node3D"]
+script = ExtResource("1_creep")
+
+[node name="Shadow" type="Decal" parent="."]
+size = Vector3(0.9, 1.0, 0.9)
+upper_fade = 0.15
+lower_fade = 0.15
+modulate = Color(0.05, 0.06, 0.05, 0.42)
+
+[node name="Body" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.55, 0)
+mesh = SubResource("Capsule_body")
+
+[node name="Armor" type="MeshInstance3D" parent="Body"]
+position = Vector3(0, 0.18, 0)
+mesh = SubResource("Cylinder_armor")
+
+[node name="Weapon" type="MeshInstance3D" parent="Body"]
+position = Vector3(0.42, 0.02, 0)
+rotation = Vector3(0, 0, -0.28)
+mesh = SubResource("Box_weapon")
+
+[node name="HealthBar" type="Node3D" parent="."]
+position = Vector3(0, 1.28, 0)
+
+[node name="Background" type="MeshInstance3D" parent="HealthBar"]
+mesh = SubResource("Quad_health_back")
+
+[node name="Fill" type="MeshInstance3D" parent="HealthBar"]
+position = Vector3(0, 0, 0.004)
+mesh = SubResource("Quad_health")

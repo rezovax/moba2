@@ -1,0 +1,90 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://scripts/player/archer_player.gd" id="1_player"]
+[ext_resource type="PackedScene" path="res://scenes/combat/archer_arrow.tscn" id="2_arrow"]
+[ext_resource type="PackedScene" path="res://assets/characters/quaternius/medieval.gltf" id="3_model"]
+[ext_resource type="Script" path="res://scripts/player/archer_animation_controller.gd" id="4_animation"]
+[ext_resource type="Script" path="res://scripts/player/archer_input.gd" id="5_input"]
+[ext_resource type="Script" path="res://scripts/player/archer_motor.gd" id="6_motor"]
+[ext_resource type="Script" path="res://scripts/player/archer_camera_rig.gd" id="7_camera"]
+[ext_resource type="Script" path="res://scripts/player/archer_weapon_controller.gd" id="8_weapon"]
+
+[sub_resource type="CapsuleShape3D" id="Capsule_player"]
+radius = 0.38
+height = 1.8
+
+[node name="ArcherPlayer" type="CharacterBody3D"]
+collision_layer = 8
+collision_mask = 1
+floor_stop_on_slope = true
+floor_constant_speed = true
+floor_max_angle = 0.785398
+floor_snap_length = 0.3
+script = ExtResource("1_player")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.9, 0)
+shape = SubResource("Capsule_player")
+
+[node name="GroundCheck" type="RayCast3D" parent="."]
+target_position = Vector3(0, -0.65, 0)
+collision_mask = 1
+
+[node name="VisualRoot" type="Node3D" parent="."]
+
+[node name="CharacterModel" parent="VisualRoot" instance=ExtResource("3_model")]
+rotation_degrees = Vector3(0, 180, 0)
+
+[node name="AnimationTree" type="AnimationTree" parent="VisualRoot"]
+anim_player = NodePath("../CharacterModel/AnimationPlayer")
+script = ExtResource("4_animation")
+
+[node name="WeaponAttachment" type="BoneAttachment3D" parent="VisualRoot/CharacterModel/CharacterArmature/Skeleton3D"]
+bone_name = "Wrist.L"
+
+[node name="WeaponSocket" type="Marker3D" parent="VisualRoot/CharacterModel/CharacterArmature/Skeleton3D/WeaponAttachment"]
+position = Vector3(0.02, -0.08, -0.1)
+rotation_degrees = Vector3(90, 0, -90)
+
+[node name="ArrowSpawn" type="Marker3D" parent="VisualRoot/CharacterModel/CharacterArmature/Skeleton3D/WeaponAttachment/WeaponSocket"]
+position = Vector3(0, 0, -0.58)
+
+[node name="CameraTarget" type="Marker3D" parent="."]
+position = Vector3(0, 1.55, 0)
+
+[node name="CameraRig" type="Node3D" parent="." node_paths=PackedStringArray("target")]
+top_level = true
+script = ExtResource("7_camera")
+target = NodePath("../CameraTarget")
+
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraRig"]
+rotation_degrees = Vector3(-24, 0, 0)
+spring_length = 6.4
+margin = 0.18
+collision_mask = 1
+
+[node name="Camera3D" type="Camera3D" parent="CameraRig/SpringArm3D"]
+current = true
+fov = 54.0
+
+[node name="AimRay" type="RayCast3D" parent="CameraRig/SpringArm3D/Camera3D"]
+target_position = Vector3(0, 0, -100)
+collision_mask = 3
+collide_with_areas = true
+
+[node name="ArcherInput" type="Node" parent="."]
+script = ExtResource("5_input")
+
+[node name="ArcherMotor" type="Node" parent="." node_paths=PackedStringArray("visual_root", "camera_rig", "ground_check")]
+script = ExtResource("6_motor")
+visual_root = NodePath("../VisualRoot")
+camera_rig = NodePath("../CameraRig")
+ground_check = NodePath("../GroundCheck")
+
+[node name="ArcherWeaponController" type="Node" parent="." node_paths=PackedStringArray("arrow_spawn", "camera_rig", "animation_controller", "legacy_weapon")]
+script = ExtResource("8_weapon")
+arrow_scene = ExtResource("2_arrow")
+arrow_spawn = NodePath("../VisualRoot/CharacterModel/CharacterArmature/Skeleton3D/WeaponAttachment/WeaponSocket/ArrowSpawn")
+camera_rig = NodePath("../CameraRig")
+animation_controller = NodePath("../VisualRoot/AnimationTree")
+legacy_weapon = NodePath("../VisualRoot/CharacterModel/CharacterArmature/Skeleton3D/Middle1_R/Sword")

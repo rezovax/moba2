@@ -1,0 +1,73 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://scripts/enemy/test_enemy.gd" id="1_enemy"]
+
+[sub_resource type="CapsuleShape3D" id="Capsule_enemy"]
+radius = 0.48
+height = 1.8
+
+[sub_resource type="StandardMaterial3D" id="Material_body"]
+albedo_color = Color(0.44, 0.12, 0.2, 1)
+metallic = 0.18
+roughness = 0.58
+
+[sub_resource type="CapsuleMesh" id="Capsule_body"]
+material = SubResource("Material_body")
+radius = 0.46
+height = 1.75
+
+[sub_resource type="StandardMaterial3D" id="Material_eye"]
+albedo_color = Color(1, 0.34, 0.18, 1)
+emission_enabled = true
+emission = Color(0.8, 0.05, 0.02, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="SphereMesh" id="Sphere_eye"]
+material = SubResource("Material_eye")
+radius = 0.13
+height = 0.26
+
+[sub_resource type="StandardMaterial3D" id="Material_health_back"]
+shading_mode = 0
+albedo_color = Color(0.08, 0.02, 0.03, 1)
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="Quad_health_back"]
+material = SubResource("Material_health_back")
+size = Vector2(1.24, 0.13)
+
+[sub_resource type="StandardMaterial3D" id="Material_health"]
+shading_mode = 0
+albedo_color = Color(0.35, 0.92, 0.48, 1)
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="Quad_health"]
+material = SubResource("Material_health")
+size = Vector2(1.16, 0.09)
+
+[node name="TestEnemy" type="StaticBody3D"]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_enemy")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.9, 0)
+shape = SubResource("Capsule_enemy")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.9, 0)
+mesh = SubResource("Capsule_body")
+
+[node name="Eye" type="MeshInstance3D" parent="Body"]
+position = Vector3(0, 0.2, -0.43)
+mesh = SubResource("Sphere_eye")
+
+[node name="HealthBar" type="Node3D" parent="."]
+position = Vector3(0, 2.08, 0)
+
+[node name="Background" type="MeshInstance3D" parent="HealthBar"]
+mesh = SubResource("Quad_health_back")
+
+[node name="Fill" type="MeshInstance3D" parent="HealthBar"]
+position = Vector3(0, 0, 0.004)
+mesh = SubResource("Quad_health")

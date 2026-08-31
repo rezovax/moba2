@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/arrow_impact.gd" id="1_impact"]
+
+[sub_resource type="StandardMaterial3D" id="Material_flash"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.4, 0.9, 1, 0.82)
+emission_enabled = true
+emission = Color(0.12, 0.62, 1, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="SphereMesh" id="Sphere_flash"]
+material = SubResource("Material_flash")
+radius = 0.12
+height = 0.24
+radial_segments = 12
+rings = 6
+
+[node name="ArrowImpact" type="Node3D"]
+script = ExtResource("1_impact")
+
+[node name="Flash" type="MeshInstance3D" parent="."]
+mesh = SubResource("Sphere_flash")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+light_color = Color(0.2, 0.72, 1, 1)
+light_energy = 1.8
+omni_range = 2.4
+shadow_enabled = false

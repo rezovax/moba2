@@ -1,0 +1,137 @@
+[gd_scene load_steps=16 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/lane_battle.gd" id="1_battle"]
+[ext_resource type="PackedScene" path="res://scenes/combat/lane_creep.tscn" id="2_creep"]
+[ext_resource type="PackedScene" path="res://scenes/combat/lane_hud.tscn" id="3_hud"]
+
+[sub_resource type="StandardMaterial3D" id="Material_grass"]
+albedo_color = Color(0.12, 0.26, 0.14, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="Box_ground"]
+material = SubResource("Material_grass")
+size = Vector3(24, 0.35, 8)
+
+[sub_resource type="StandardMaterial3D" id="Material_lane"]
+albedo_color = Color(0.31, 0.34, 0.22, 1)
+roughness = 1.0
+
+[sub_resource type="BoxMesh" id="Box_lane"]
+material = SubResource("Material_lane")
+size = Vector3(20, 0.18, 4.2)
+
+[sub_resource type="StandardMaterial3D" id="Material_edge"]
+albedo_color = Color(0.45, 0.52, 0.28, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="Box_edge"]
+material = SubResource("Material_edge")
+size = Vector3(20, 0.12, 0.14)
+
+[sub_resource type="StandardMaterial3D" id="Material_radiant"]
+albedo_color = Color(0.2, 0.72, 0.7, 1)
+emission_enabled = true
+emission = Color(0.08, 0.38, 0.36, 1)
+emission_energy_multiplier = 1.3
+roughness = 0.45
+
+[sub_resource type="StandardMaterial3D" id="Material_dire"]
+albedo_color = Color(0.78, 0.22, 0.26, 1)
+emission_enabled = true
+emission = Color(0.42, 0.04, 0.06, 1)
+emission_energy_multiplier = 1.3
+roughness = 0.45
+
+[sub_resource type="CylinderMesh" id="Cylinder_base_radiant"]
+material = SubResource("Material_radiant")
+top_radius = 1.25
+bottom_radius = 1.55
+height = 0.65
+
+[sub_resource type="CylinderMesh" id="Cylinder_base_dire"]
+material = SubResource("Material_dire")
+top_radius = 1.25
+bottom_radius = 1.55
+height = 0.65
+
+[sub_resource type="SphereMesh" id="Sphere_core_radiant"]
+material = SubResource("Material_radiant")
+radius = 0.62
+height = 1.24
+
+[sub_resource type="SphereMesh" id="Sphere_core_dire"]
+material = SubResource("Material_dire")
+radius = 0.62
+height = 1.24
+
+[sub_resource type="StandardMaterial3D" id="Material_stone"]
+albedo_color = Color(0.24, 0.28, 0.25, 1)
+roughness = 0.9
+
+[sub_resource type="CylinderMesh" id="Cylinder_tower"]
+material = SubResource("Material_stone")
+top_radius = 0.42
+bottom_radius = 0.58
+height = 1.8
+
+[node name="LaneBattle" type="Node3D"]
+script = ExtResource("1_battle")
+creep_scene = ExtResource("2_creep")
+
+[node name="Ground" type="MeshInstance3D" parent="."]
+position = Vector3(0, -0.3, 0)
+mesh = SubResource("Box_ground")
+
+[node name="Lane" type="MeshInstance3D" parent="."]
+position = Vector3(0, -0.08, 0)
+mesh = SubResource("Box_lane")
+
+[node name="UpperLaneEdge" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.03, -2.12)
+mesh = SubResource("Box_edge")
+
+[node name="LowerLaneEdge" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.03, 2.12)
+mesh = SubResource("Box_edge")
+
+[node name="RadiantBase" type="Node3D" parent="."]
+position = Vector3(-10.3, 0, 0)
+
+[node name="Platform" type="MeshInstance3D" parent="RadiantBase"]
+position = Vector3(0, 0.12, 0)
+mesh = SubResource("Cylinder_base_radiant")
+
+[node name="Core" type="MeshInstance3D" parent="RadiantBase"]
+position = Vector3(0, 1.0, 0)
+mesh = SubResource("Sphere_core_radiant")
+
+[node name="DireBase" type="Node3D" parent="."]
+position = Vector3(10.3, 0, 0)
+
+[node name="Platform" type="MeshInstance3D" parent="DireBase"]
+position = Vector3(0, 0.12, 0)
+mesh = SubResource("Cylinder_base_dire")
+
+[node name="Core" type="MeshInstance3D" parent="DireBase"]
+position = Vector3(0, 1.0, 0)
+mesh = SubResource("Sphere_core_dire")
+
+[node name="RadiantTower" type="MeshInstance3D" parent="."]
+position = Vector3(-6.5, 0.7, -2.8)
+mesh = SubResource("Cylinder_tower")
+
+[node name="DireTower" type="MeshInstance3D" parent="."]
+position = Vector3(6.5, 0.7, 2.8)
+mesh = SubResource("Cylinder_tower")
+
+[node name="RadiantCreeps" type="Node3D" parent="."]
+
+[node name="DireCreeps" type="Node3D" parent="."]
+
+[node name="WaveTimer" type="Timer" parent="."]
+wait_time = 6.0
+autostart = true
+
+[node name="LaneHud" parent="." instance=ExtResource("3_hud")]
+
+[connection signal="timeout" from="WaveTimer" to="." method="_on_wave_timer_timeout"]

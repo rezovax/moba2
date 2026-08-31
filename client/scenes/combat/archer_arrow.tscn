@@ -1,0 +1,49 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/archer_arrow.gd" id="1_arrow"]
+[ext_resource type="PackedScene" path="res://scenes/combat/arrow_impact.tscn" id="2_impact"]
+
+[sub_resource type="StandardMaterial3D" id="Material_shaft"]
+albedo_color = Color(0.65, 0.82, 0.92, 1)
+metallic = 0.18
+roughness = 0.35
+
+[sub_resource type="CylinderMesh" id="Cylinder_shaft"]
+material = SubResource("Material_shaft")
+top_radius = 0.025
+bottom_radius = 0.025
+height = 0.9
+radial_segments = 8
+
+[sub_resource type="StandardMaterial3D" id="Material_tip"]
+albedo_color = Color(0.38, 0.9, 1, 1)
+emission_enabled = true
+emission = Color(0.12, 0.55, 0.8, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="PrismMesh" id="Prism_tip"]
+material = SubResource("Material_tip")
+size = Vector3(0.14, 0.22, 0.14)
+
+[sub_resource type="CapsuleShape3D" id="Capsule_arrow"]
+radius = 0.06
+height = 0.96
+
+[node name="ArcherArrow" type="CharacterBody3D"]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_arrow")
+impact_scene = ExtResource("2_impact")
+
+[node name="Shaft" type="MeshInstance3D" parent="."]
+rotation_degrees = Vector3(90, 0, 0)
+mesh = SubResource("Cylinder_shaft")
+
+[node name="Tip" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0, -0.5)
+rotation_degrees = Vector3(90, 0, 0)
+mesh = SubResource("Prism_tip")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+rotation_degrees = Vector3(90, 0, 0)
+shape = SubResource("Capsule_arrow")
