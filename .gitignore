@@ -1,5 +1,9 @@
 .omo
 .codegraph
+/.tools/
+/target/
+client/build/
+client/native/bin/
 
 # Godot generated state and imports.
 client/.godot/

@@ -1,0 +1,91 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/simulation/prediction_demo.gd" id="1_demo"]
+[ext_resource type="Script" path="res://scripts/ui/virtual_joystick.gd" id="2_joystick"]
+
+[sub_resource type="StyleBoxFlat" id="Style_map"]
+bg_color = Color(0.035, 0.09, 0.13, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.24, 0.66, 0.78, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="Style_panel"]
+bg_color = Color(0.015, 0.035, 0.055, 0.9)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="PredictionDemo" type="Node2D"]
+script = ExtResource("1_demo")
+
+[node name="Background" type="ColorRect" parent="."]
+offset_right = 1280.0
+offset_bottom = 720.0
+mouse_filter = 2
+color = Color(0.012, 0.024, 0.043, 1)
+
+[node name="Map" type="Panel" parent="."]
+offset_left = 140.0
+offset_top = 40.0
+offset_right = 1140.0
+offset_bottom = 640.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("Style_map")
+
+[node name="CenterLine" type="ColorRect" parent="Map"]
+layout_mode = 0
+offset_left = 498.0
+offset_top = 3.0
+offset_right = 502.0
+offset_bottom = 597.0
+mouse_filter = 2
+color = Color(0.18, 0.42, 0.52, 0.35)
+
+[node name="Character" type="Polygon2D" parent="."]
+position = Vector2(640, 340)
+polygon = PackedVector2Array(-20, -20, 20, -20, 20, 20, -20, 20)
+color = Color(0.32, 0.82, 1, 1)
+
+[node name="Interface" type="CanvasLayer" parent="."]
+
+[node name="TitlePanel" type="PanelContainer" parent="Interface"]
+offset_left = 24.0
+offset_top = 20.0
+offset_right = 535.0
+offset_bottom = 112.0
+theme_override_styles/panel = SubResource("Style_panel")
+
+[node name="Text" type="Label" parent="Interface/TitlePanel"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.92, 1, 1)
+theme_override_colors/font_outline_color = Color(0.01, 0.02, 0.03, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 20
+text = "Общий Rust World\nСтик или WASD — движение · Esc — сброс"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Status" type="Label" parent="Interface"]
+offset_left = 828.0
+offset_top = 24.0
+offset_right = 1252.0
+offset_bottom = 62.0
+theme_override_colors/font_color = Color(0.57, 0.86, 0.98, 1)
+theme_override_font_sizes/font_size = 18
+text = "Rust World"
+horizontal_alignment = 2
+
+[node name="VirtualJoystick" type="Control" parent="Interface"]
+offset_left = 28.0
+offset_top = 512.0
+offset_right = 200.0
+offset_bottom = 684.0
+mouse_default_cursor_shape = 13
+script = ExtResource("2_joystick")

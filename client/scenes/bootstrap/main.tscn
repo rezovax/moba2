@@ -1,28 +1,9 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=3 format=3]
 
-[ext_resource type="Script" path="res://scripts/bootstrap/main.gd" id="1_main"]
-[ext_resource type="PackedScene" path="res://scenes/world/test_arena.tscn" id="2_arena"]
+[ext_resource type="PackedScene" path="res://scenes/simulation/prediction_demo.tscn" id="1_demo"]
+[ext_resource type="Script" path="res://scripts/bootstrap/main.gd" id="2_main"]
 
-[sub_resource type="Environment" id="Environment_main"]
-background_mode = 1
-background_color = Color(0.025, 0.055, 0.07, 1)
-ambient_light_source = 3
-ambient_light_color = Color(0.48, 0.57, 0.48, 1)
-ambient_light_energy = 0.75
-reflected_light_source = 2
-tonemap_mode = 2
+[node name="Main" type="Node"]
+script = ExtResource("2_main")
 
-[node name="Main" type="Node3D"]
-script = ExtResource("1_main")
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_main")
-
-[node name="Sun" type="DirectionalLight3D" parent="."]
-rotation_degrees = Vector3(-58, -34, 0)
-light_color = Color(1, 0.92, 0.76, 1)
-light_energy = 1.25
-shadow_enabled = true
-directional_shadow_max_distance = 32.0
-
-[node name="TestArena" parent="." instance=ExtResource("2_arena")]
+[node name="PredictionDemo" parent="." instance=ExtResource("1_demo")]

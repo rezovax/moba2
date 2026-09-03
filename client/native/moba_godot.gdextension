@@ -1,0 +1,12 @@
+[configuration]
+entry_symbol = "gdext_rust_init"
+compatibility_minimum = "4.7"
+
+[libraries]
+linux.debug.x86_64 = "res://../target/debug/libmoba_godot.so"
+linux.release.x86_64 = "res://../target/release/libmoba_godot.so"
+android.debug.arm64 = "res://native/bin/android/arm64/libmoba_godot.debug.so"
+android.release.arm64 = "res://native/bin/android/arm64/libmoba_godot.release.so"
+android.debug.x86_64 = "res://native/bin/android/x86_64/libmoba_godot.debug.so"
+android.release.x86_64 = "res://native/bin/android/x86_64/libmoba_godot.release.so"
+ios.release.arm64 = "res://../target/ios/libmoba_godot.ios.framework"

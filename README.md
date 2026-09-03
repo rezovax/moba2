@@ -1,3 +1,5 @@
+https://250e3f1d.withblancvpn.online/s/fcc922069ba546788ccd3e27b9926fd0
+
 # moba2
 
 Новая MOBA-игра на Godot 4. Репозиторий рассчитан на совместную разработку

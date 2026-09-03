@@ -1,5 +1,5 @@
-extends Node3D
+extends Node
 
 
 func _ready() -> void:
-	get_window().title = "MOBA2 · Frost Archer Prototype"
+	get_window().title = "MOBA2 · Shared Rust World Concept"
